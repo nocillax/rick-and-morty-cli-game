@@ -89,40 +89,6 @@ node bin/randm.js --version
 
 5. **Results**: Game reveals portal gun location and determines winner
 
-## 🎭 Morty Implementations
-
-### ClassicMorty
-
-- **Behavior**: Uses fair random protocol for all decisions
-- **Strategy**: Never removes the box with the portal gun
-- **Random Generation**: Always generates fair random values
-- **Use Case**: Traditional Monty Hall probability scenario
-
-### LazyMorty
-
-- **Behavior**: Removes boxes with lowest possible indices (keeps highest index)
-- **Strategy**: Never removes the box with the portal gun
-
-- **Random Generation**: Ignores random values, uses deterministic logic - **ClassicMorty**: Uses second fair protocol when Rick guesses correctly
-
-- **Use Case**: Predictable box selection patterns - **LazyMorty**: Makes deterministic choices (highest-indexed empty box)
-
-## 🔒 Cryptographic Protocol4. **Final Choice**: Rick chooses to STAY or SWITCH
-
-The game implements a **provably fair protocol** ensuring transparency:5. **Results**: Game reveals portal gun location and determines winner
-
-1. **Key Generation**: 256-bit cryptographically secure random key## 🏗️ Architecture
-
-2. **Value Generation**: Morty's value using `crypto.randomInt()`
-
-3. **HMAC Creation**: HMAC-SHA3-256 of Morty's value
-
-4. **User Input**: Rick provides input for collaborative randomness
-
-5. **Result Calculation**: `(morty_value + rick_value) % N````
-
-6. **Verification**: Original key and value revealed for verificationrick-and-morty-game/
-
 ## 📊 Sample Game Output
 
 ```
@@ -179,261 +145,35 @@ Morty: Okay… uh, bye!
 └──────────────┴───────────────┴─────────────┘
 ```
 
-## 🎭 Morty Implementations
+## 🎭 Morty Strategies
 
-### ClassicMorty
+- **ClassicMorty**: Uses fair random protocol for all decisions
+- **LazyMorty**: Makes deterministic choices (keeps highest-indexed empty box)
 
-- **When Rick is wrong**: Always keeps Rick's box and portal gun box
-- **When Rick is correct**: Uses second fair random number protocol to choose which empty box to keep
-- **Probability**: P(stay) = 1/N, P(switch) = (N-1)/N
+Both implement the Monty Hall problem: P(stay) = 1/N, P(switch) = (N-1)/N
 
-### LazyMorty
+## 🔐 Security
 
-- **When Rick is wrong**: Always keeps Rick's box and portal gun box
-- **When Rick is correct**: Deterministically keeps the empty box with highest index
-- **Probability**: Same as ClassicMorty despite different decision process
+Uses HMAC-SHA3-256 with 256-bit keys for cryptographically secure fair play.
 
-## 🔐 Cryptographic Protocol
+## 📊 Statistics
 
-### Fair Random Number Generation
-
-The game uses a cryptographic commitment scheme to ensure fairness:
-
-1. **Commitment Phase**:
-
-- **`LazyMorty`**: Deterministic lowest-index removal
-
-  - Morty generates random value `m`
-
-  - Morty creates HMAC: `HMAC-SHA3-256(key, m)`
-
-- Morty reveals HMAC to Rick
-
-### Dependencies
-
-- **`commander`**: Command-line argument parsing2. **Input Phase**:
-
-- **`prompt-sync`**: Synchronous user input handling
-
-- **`cli-table3`**: ASCII table rendering - Rick provides input value `r`
-
-- **`crypto`**: Cryptographic operations (Node.js built-in)
-
-3. **Revelation Phase**:
-
-### Security Features - Morty reveals secret value `m` and key
-
-- **HMAC-SHA3-256**: Cryptographic message authentication - Game verifies HMAC matches
-
-- **256-bit Keys**: Secure random key generation using `crypto.randomBytes()` - Fair number calculated: `(m + r) % N`
-
-- **Secure Random**: `crypto.randomInt()` for cryptographically secure values
-
-- **Protocol Verification**: Keys revealed after input for transparency### Security Properties
-
-### Error Handling- **Unpredictability**: Neither player can predict the outcome alone
-
-- ✅ Clear, user-friendly error messages- **Verifiability**: All computations can be verified using revealed values
-
-- ✅ No stack traces exposed to users- **Non-repudiation**: HMAC prevents tampering with committed values
-
-- ✅ Comprehensive input validation- **Fairness**: Both players contribute equally to randomness
-
-- ✅ File existence verification
-
-## 📊 Statistics and Analysis
-
-## 📊 Statistics and Analysis
-
-The game tracks comprehensive statistics:
-
-- **Win/Loss counts** by strategy (stay vs switch)
-- **Experimental probabilities** vs theoretical expectations
-- **Round-by-round history** with decision details
-- **Confidence levels** based on sample size
-
-### Example Output
-
-```
-┌──────────┬──────┬────────┬───────┬──────────┬────────────┬──────────────┐
-│ Strategy │ Wins │ Losses │ Total │ Win Rate │ Theoretical │ Difference   │
-├──────────┼──────┼────────┼───────┼──────────┼────────────┼──────────────┤
-│ Stay     │ 12   │ 48     │ 60    │ 20.00%   │ 20.00%     │ +0.00%       │
-│ Switch   │ 32   │ 8      │ 40    │ 80.00%   │ 80.00%     │ +0.00%       │
-│ Overall  │ 44   │ 56     │ 100   │ 44.00%   │ Variable   │ N/A          │
-└──────────┴──────┴────────┴───────┴──────────┴────────────┴──────────────┘
-```
-
-## 🏗️ Architecture
-
-### Project Structure
-
-```
-rick-and-morty-cli-game/
-├── bin/
-│   └── randm.js                    # Main executable entry point
-├── src/
-│   ├── core/
-│   │   ├── ArgumentParser.js       # Command-line argument validation
-│   │   ├── FairProtocol.js         # Cryptographic HMAC protocol implementation
-│   │   ├── GameEngine.js           # Main game loop and logic
-│   │   ├── KeyManager.js           # Secure key generation and management
-│   │   ├── MortyLoader.js          # Dynamic Morty implementation loading
-│   │   ├── ResultsDisplay.js       # Game output and message formatting
-│   │   ├── StatisticsCollector.js  # Game statistics and reporting
-│   │   └── UserInterface.js        # Input validation and user interaction
-│   └── morties/
-│       ├── ClassicMorty.js         # Traditional Monty Hall strategy
-│       └── LazyMorty.js            # Deterministic strategy
-├── package.json                    # Project configuration and dependencies
-├── package-lock.json               # Dependency lock file
-└── README.md                       # This documentation
-```
-
-### Core Components
-
-The codebase follows **Single Responsibility Principle** with well-structured classes:
-
-#### FairProtocol
-
-- Implements HMAC-SHA3-256 cryptographic commitment scheme
-- Generates 256-bit cryptographically secure keys
-- Creates and verifies HMAC commitments
-- Provides fair random number calculation: `(morty + rick) % N`
-
-#### GameEngine
-
-- Manages complete game flow and user interactions
-- Handles first and second fair random number protocols
-- Integrates with Morty implementations for decision logic
-- Collects and displays game statistics
-
-#### MortyLoader
-
-- Dynamically loads Morty strategy implementations
-- Enables easy extension with new strategies
-- Validates Morty implementations have required methods
-
-## 🐛 Error Handling
-
-The game includes comprehensive error handling:
-
-### Common Error Cases
-
-```bash
-# Missing arguments
-node bin/randm.js
-# Error: Missing required arguments
-
-# Invalid box count (minimum 3 required)
-node bin/randm.js 2 ./src/morties/ClassicMorty.js
-# Error: Number of boxes must be at least 3
-
-# Non-existent Morty implementation file
-node bin/randm.js 3 ./nonexistent.js
-# Error: Cannot find Morty implementation file
-```
-
-## 🎯 Probability Mathematics
-
-### Monty Hall Problem Theory
-
-For N boxes with 1 portal gun:
-
-- **Stay Probability**: `1/N` (original choice remains)
-- **Switch Probability**: `(N-1)/N` (all other boxes combined)
-
-### Example with 3 Boxes
-
-- **Stay**: 33.3% chance (1/3)
-- **Switch**: 66.7% chance (2/3)
-
-The game tracks both experimental results and theoretical probabilities for comparison.
+Tracks win/loss ratios and compares experimental vs theoretical probabilities.
 
 ## 🛠️ Development
 
-### Adding New Morty Strategies
+To add new Morty strategies, create a class in `src/morties/` with these methods:
 
-1. Create new class in `src/morties/` directory
-2. Implement required methods:
+- `getName()`: Strategy name
+- `decideBoxToKeep()`: Main logic
+- `getTheoreticalWinProbability()`: Probability calculation
 
-   - `getName()`: Return strategy name
-   - `decideBoxToKeep(rickChoice, portalGunBox, allBoxes)`: Main decision logic
-   - `getTheoreticalWinProbability(N)`: Calculate theoretical probabilities
-
-3. Export as default from new file
-
-Example:
-
-```javascript
-export default class CustomMorty {
-    getName() {
-        return 'CustomMorty';
-    }
-
-    decideBoxToKeep(rickChoice, portalGunBox, allBoxes) {
-        // Custom logic here
-        return {
-            boxesToKeep: [...],
-            reasoning: '...',
-            usedSecondProtocol: false
-        };
-    }
-
-    getTheoreticalWinProbability(N) {
-        return {
-            stay: 1/N,
-            switch: (N-1)/N
-        };
-    }
-}
-```
-
-4. Test with: `node bin/randm.js 3 ./src/morties/CustomMorty.js`
-
-### Dependencies
-
-Key dependencies defined in `package.json`:
-
-- **`commander`**: Command-line argument parsing (^12.1.0)
-- **`prompt-sync`**: Synchronous user input handling (^4.2.0)
-- **`cli-table3`**: ASCII table rendering (^0.6.3)
-- **`crypto`**: Cryptographic operations (Node.js built-in)
-
-### Technical Details
-
-- **ES6 Modules**: Uses `"type": "module"` in package.json
-- **Node.js 14+**: Minimum required version specified in engines
-- **Security**: HMAC-SHA3-256 with 256-bit keys using `crypto.randomBytes()`
-- **Error Handling**: Comprehensive input validation and user-friendly messages
-
-## 🐛 Troubleshooting
-
-### Common Issues
-
-1. **Module Not Found**: Ensure you're running from project root directory
-2. **Invalid Arguments**: Check minimum boxes (3) and valid file paths
-3. **HMAC Verification Failed**: Indicates tampering - restart game
-4. **Permission Denied**: Make script executable with `chmod +x bin/randm.js`
-
-### Error Codes
-
-- **Exit 0**: Normal completion
-- **Exit 1**: Error (invalid arguments, file not found, etc.)
-- **SIGINT**: User interrupted (Ctrl+C)
+**Dependencies:** commander, prompt-sync, cli-table3
 
 ## 📝 License
 
-This project is part of an educational course on IT internship development.
-
-## 🤝 Contributing
-
-BY NoCiLLaX <3
+By NoCiLLaX <3
 
 ---
 
-_"Wubba lubba dub dub! Science doesn't care about your feelings, Rick!"_ - Morty Smith
-
-```
-
-```
+_"Wubba lubba dub dub!"_ - Rick Sanchez
