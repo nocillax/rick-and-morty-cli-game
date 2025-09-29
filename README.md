@@ -407,33 +407,6 @@ Key dependencies defined in `package.json`:
 - **Security**: HMAC-SHA3-256 with 256-bit keys using `crypto.randomBytes()`
 - **Error Handling**: Comprehensive input validation and user-friendly messages
 
-- English code and output
-
-- User-friendly error handling### Configuration
-
-## 🎓 Educational Value
-
-This implementation demonstrates:
-
-### Computer Science Concepts
-
-- **Cryptographic Protocols**: HMAC, commitment schemes, key generation
-- **Object-Oriented Design**: Modularity and single responsibility principle
-- **Probability Theory**: Monty Hall problem, experimental vs theoretical analysis
-- **Software Architecture**: Clean modular design with dependency injection
-
-### Mathematics
-
-- **Conditional Probability**: P(win|stay) vs P(win|switch)
-- **Statistical Analysis**: Convergence to theoretical probabilities
-- **Cryptographic Hash Functions**: SHA3-256, collision resistance
-
-### Security
-
-- **Fair Play Mechanisms**: Preventing cheating in digital games
-- **Commitment Schemes**: Cryptographic binding and hiding
-- **Randomness Generation**: Cryptographically secure randomness
-
 ## 🐛 Troubleshooting
 
 ### Common Issues
@@ -455,13 +428,7 @@ This project is part of an educational course on IT internship development.
 
 ## 🤝 Contributing
 
-This is an educational project demonstrating:
-
-- Modern JavaScript (ES6+) best practices
-- Cryptographic protocol implementation
-- Interactive CLI application development
-- Object-oriented design patterns
-- Statistical analysis and visualization
+BY NoCiLLaX <3
 
 ---
 
