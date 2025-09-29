@@ -243,43 +243,26 @@ The game uses a cryptographic commitment scheme to ensure fairness:
 
 ## 📊 Statistics and Analysis
 
-## 🧪 Testing
+## 📊 Statistics and Analysis
 
 The game tracks comprehensive statistics:
 
-### Available Morty Implementations
+- **Win/Loss counts** by strategy (stay vs switch)
+- **Experimental probabilities** vs theoretical expectations
+- **Round-by-round history** with decision details
+- **Confidence levels** based on sample size
 
-````bash- **Win/Loss counts** by strategy (stay vs switch)
+### Example Output
 
-# Test all implementations- **Experimental probabilities** vs theoretical expectations
-
-node test-morties.js- **Round-by-round history** with decision details
-
-```- **Confidence levels** based on sample size
-
-
-
-### Error Testing Examples### Example Output
-
-```bash
-
-# Missing arguments```
-
-node bin/randm.js┌──────────┬──────┬────────┬───────┬──────────┬────────────┬──────────────┐
-
+```
+┌──────────┬──────┬────────┬───────┬──────────┬────────────┬──────────────┐
 │ Strategy │ Wins │ Losses │ Total │ Win Rate │ Theoretical │ Difference   │
-
-# Invalid box count  ├──────────┼──────┼────────┼───────┼──────────┼────────────┼──────────────┤
-
-node bin/randm.js 2 ./src/morties/ClassicMorty.js│ Stay     │ 12   │ 48     │ 60    │ 20.00%   │ 20.00%     │ +0.00%       │
-
+├──────────┼──────┼────────┼───────┼──────────┼────────────┼──────────────┤
+│ Stay     │ 12   │ 48     │ 60    │ 20.00%   │ 20.00%     │ +0.00%       │
 │ Switch   │ 32   │ 8      │ 40    │ 80.00%   │ 80.00%     │ +0.00%       │
-
-# Non-existent file│ Overall  │ 44   │ 56     │ 100   │ 44.00%   │ Variable   │ N/A          │
-
-node bin/randm.js 3 ./nonexistent.js└──────────┴──────┴────────┴───────┴──────────┴────────────┴──────────────┘
-
-````
+│ Overall  │ 44   │ 56     │ 100   │ 44.00%   │ Variable   │ N/A          │
+└──────────┴──────┴────────┴───────┴──────────┴────────────┴──────────────┘
+```
 
 ## 🏗️ Architecture
 
@@ -331,26 +314,24 @@ The codebase follows **Single Responsibility Principle** with well-structured cl
 - Enables easy extension with new strategies
 - Validates Morty implementations have required methods
 
-## 🧪 Testing
+## 🐛 Error Handling
 
-### Running Tests
+The game includes comprehensive error handling:
 
-```bash
-# Test all Morty implementations (if test file exists)
-npm test
-```
-
-### Error Testing Examples
+### Common Error Cases
 
 ```bash
 # Missing arguments
 node bin/randm.js
+# Error: Missing required arguments
 
-# Invalid box count
+# Invalid box count (minimum 3 required)
 node bin/randm.js 2 ./src/morties/ClassicMorty.js
+# Error: Number of boxes must be at least 3
 
-# Non-existent file
+# Non-existent Morty implementation file
 node bin/randm.js 3 ./nonexistent.js
+# Error: Cannot find Morty implementation file
 ```
 
 ## 🎯 Probability Mathematics
